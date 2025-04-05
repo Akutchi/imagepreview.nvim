@@ -15,7 +15,7 @@ Its usage is pretty basic. First, open the tree explorer with \<leader>e, and pl
 the image you want to preview. Then, use \<leader>ip to preview your image. Clicking anywhere else
 the ascii rendering close the preview.
 
-[gif](./doc/visual.gif)
+![gif](./doc/visual.gif)
 |\<leader>e + \<leader>ip combination|
 
 ## Installation
