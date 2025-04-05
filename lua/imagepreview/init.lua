@@ -4,7 +4,7 @@ local utils = require("imagepreview.utils")
 
 local function Create_Dither_Image(Image_Path)
   --  70, 49 are the term sizes
-  vim.cmd("silent !ascii-image-converter -C -b -d 70,49 " .. Image_Path .. "> tmp.txt")
+  vim.cmd("silent !ascii-image-converter -C -b -d 57,47 " .. Image_Path .. "> tmp.txt")
 end
 
 local function Generate_Window()
@@ -17,7 +17,7 @@ local function Generate_Window()
     relative = "editor",
     border = { style = "rounded" },
     position = "50%",
-    size = { width = "44.5%", height = "100%" },
+    size = { width = "30%", height = "95%" },
   })
 
   win:mount()
@@ -58,7 +58,7 @@ function M.Preview()
     local win = Generate_Window()
     Display_Image(win.bufnr)
   else
-    print("your file is not an image or is not supported")
+    print("your file is not an image or is not supported.")
     return
   end
 end
