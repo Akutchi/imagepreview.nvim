@@ -1,7 +1,8 @@
-local function Create_Dither_Image()
-  local Image_Id = vim.api.nvim_get_current_buf()
-  local Image_Path = vim.api.nvim_buf_get_name(Image_Id)
+M = {}
 
+local utils = require("imagepreview.utils")
+
+local function Create_Dither_Image(Image_Path)
   --  70, 49 are the term sizes
   vim.cmd("silent !ascii-image-converter -C -b -d 70,49 " .. Image_Path .. "> tmp.txt")
 end
@@ -13,6 +14,7 @@ local function Generate_Window()
   local win = Popup({
     enter = true,
     focusable = true,
+    relative = "editor",
     border = { style = "rounded" },
     position = "50%",
     size = { width = "44.5%", height = "100%" },
@@ -22,7 +24,6 @@ local function Generate_Window()
   win:on(event.BufLeave, function()
     win:unmount()
     vim.cmd("silent !rm tmp.txt")
-    vim.cmd("BufDel")
   end)
 
   return win
@@ -43,11 +44,23 @@ local function Display_Image(win_buffer)
   data:close()
 end
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.png", "*.jpg", "*.jpeg", "*.webp" },
-  callback = function()
-    Create_Dither_Image()
+function M.Preview()
+  local ext = { "png", "jpg", "jpeg", "webp" }
+  local lib = require("nvim-tree.lib")
+  local path = lib.get_node_at_cursor().absolute_path
+  local filename = lib.get_node_at_cursor().name
+
+  local file_split = utils.Split(filename, ".")
+  local len = utils.Length(file_split)
+
+  if (len > 1) and utils.Has_Value(ext, file_split[2]) then
+    Create_Dither_Image(path)
     local win = Generate_Window()
     Display_Image(win.bufnr)
+  else
+    print("your file is not an image or is not supported")
+    return
   end
-})
+end
+
+return M
