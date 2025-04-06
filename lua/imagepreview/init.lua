@@ -27,7 +27,7 @@ local function Generate_Window()
   win:on(event.BufLeave, function()
     win:unmount()
     vim.cmd("silent !rm tmp.txt")
-    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name '0xProto Nerd Font 12'")
+    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name '" .. Config.base_font .. " 12'")
   end)
 
   return win
@@ -49,6 +49,11 @@ local function Display_Image(win_buffer)
 end
 
 function M.Preview()
+  if Config.base_font == "" then
+    print("Could not determine base font. Exiting ImagePreview...")
+    return
+  end
+
   local ext = { "png", "jpg", "jpeg", "webp" }
   local lib = require("nvim-tree.lib")
   local path = lib.get_node_at_cursor().absolute_path

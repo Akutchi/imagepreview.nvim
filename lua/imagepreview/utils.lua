@@ -1,5 +1,6 @@
 M = {}
 
+-- from https://stackoverflow.com/a/7615129
 function M.Split(inputstr, sep)
   if sep == nil then
     sep = "%s"
@@ -25,6 +26,17 @@ function M.Has_Value(tab, val)
   end
 
   return false
+end
+
+--  from https://stackoverflow.com/a/24823383
+function M.Slice(tbl, first, last)
+  local sliced = {}
+
+  for i = first or 1, last or #tbl do
+    sliced[#sliced + 1] = tbl[i]
+  end
+
+  return sliced
 end
 
 return M
