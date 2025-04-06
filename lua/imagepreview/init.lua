@@ -2,9 +2,11 @@ M = {}
 
 local utils = require("imagepreview.utils")
 
-local function Create_Dither_Image(Image_Path)
-  --  70, 49 are the term sizes
-  vim.cmd("silent !ascii-image-converter -C -b -d 57,47 " .. Image_Path .. "> tmp.txt")
+local function Create_Dither_Image(Image_Path, file_ext)
+  local braille = require("imagepreview.braille")
+
+  --  57, 47 are the term sizes
+  braille.Create_Tmp(57, 47, Image_Path)
 end
 
 local function Generate_Window()
@@ -51,10 +53,11 @@ function M.Preview()
   local filename = lib.get_node_at_cursor().name
 
   local file_split = utils.Split(filename, ".")
+  local file_ext = file_split[2]
   local len = utils.Length(file_split)
 
-  if (len > 1) and utils.Has_Value(ext, file_split[2]) then
-    Create_Dither_Image(path)
+  if (len > 1) and utils.Has_Value(ext, file_ext) then
+    Create_Dither_Image(path, file_ext)
     local win = Generate_Window()
     Display_Image(win.bufnr)
   else
