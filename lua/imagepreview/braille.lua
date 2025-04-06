@@ -83,12 +83,11 @@ local function Get_Image_Rescaled_Dims(Img_Path)
     ascii_width = term_width
     ascii_height = 0.5 * ascii_width / img_ratio
   end
-  --[[
+ 
   if ascii_height > term_height then
     ascii_width = term_width
     ascii_height = term_height
   end
- ]]
 
   return ascii_width, ascii_height
 

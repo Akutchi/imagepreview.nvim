@@ -42,7 +42,7 @@ local function Generate_Preview_Window()
     relative = "editor",
     zindex = 2,
     border = { style = "rounded" },
-    position = "180%",
+    position = "160",
     size = {
       width = tostring(math.floor(Config.UI_target_width * Config.term_width_percentage)),
       height = tostring(math.floor(Config.UI_target_height * Config.term_height_percentage))
@@ -89,8 +89,8 @@ local function Create_Overlay()
     zindex = 1,
     row = 0,
     col = 0,
-    width = Config.target_width,
-    height = Config.target_height
+    width = Config.UI_target_width,
+    height = Config.UI_target_height
   }
   overlay.bufid = vim.api.nvim_create_buf(false, true)
   overlay.winid = vim.api.nvim_open_win(overlay.bufid, false, overlay.wincfg)

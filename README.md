@@ -9,6 +9,8 @@ This is why I decided to create a program that could display ascii rendering of 
 As such, I'm fully conscious of the fact that it is what it is. The resolution depending
 largely on the original image's details.
 
+The plugin is currently checking for .png, .jpg, .jpeg and .webp images.
+
 ## Usage
 
 Its usage is pretty basic. First, open the tree explorer with \<leader>e, and place the cursor on
