@@ -3,7 +3,7 @@
 ## Description
 
 ImagePreview is a simple program that display preview of images in a neovim environnement.
-If you're like me and you don't want to use Xterm, Kitty etc. (for whatever reason), you
+If you're like me and you don't want to use Xterm, Kitty etc. for whatever reason, you
 can't really preview full blown images in your basic terminal.\
 This is why I decided to create a program that could display ascii rendering of images.
 As such, I'm fully conscious of the fact that it is what it is. The resolution depending
@@ -16,15 +16,21 @@ the image you want to preview. Then, use \<leader>ip to preview your image. Clic
 the ascii rendering close the preview.
 
 ![gif](./doc/visual.gif)
-|\<leader>e + \<leader>ip combination|
+\<leader>e + \<leader>ip combination
 
 ## Installation
 
 ### Requirements
 
-- [ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter)
+- Imagemagick (I used 6.9.11 but older versions should be good)
 - Neovim >= 0.5.0
+- [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (I should be using 1.11.0 but older versions should be good)
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
+
+Please note that this was alll tested on Ubuntu 22.04.05 and that I suppose that you have a /etc/default/console-setup
+file that has a FONTFACE="\[FONT\]-\[TYPE\]" line describing the current system-wide font in use.
+
+If you're interested, don't hesitate to apply for a merge request to add your distro to the list of supported ones.
 
 ### Configuration
 
@@ -43,7 +49,7 @@ lvim.builtin.which_key.mappings["i"] = {
 
 ## Credits
 
-This is my first neovim plugin. It was _hell_ to create [1], and as such, I'd like to thank some people
+This is my first neovim plugin. It was _hell_ to create, and as such, I'd like to thank some people
 that helped me create my plugin (without them knowing, ofc). Those are,
 - [m4xshen](https://m4xshen.dev/posts/develop-a-neovim-plugin-in-lua) for the general idea on how to create a 
 local plugin.
@@ -52,5 +58,10 @@ local plugin.
 for understanding lua modules and the require function and how to add my local plugin to the lua path.
 - [Gonçalo Alves](https://dev.to/iamgoncaloalves/how-i-developed-my-first-neovim-plugin-a-step-by-step-guide-1lcb)
 for knowing how to locally reload my plugin using lazy.nvim.
+- [TheZoraiz](https://github.com/TheZoraiz/ascii-image-converter) for their code which first allowed me to create
+my plugin with an external dependency, and later on which code I partly took to port it from go to lua.
+- In all of this fucking mess that is my browser history, to whomever got me the solution to change this fucking terminal
+font family and size with gsetting.
+- [Sunjon](https://github.com/sunjon/Shade.nvim/) which helped me understand that, in neovim, dimming is not done 
+by actually dimming your font, but by creating an opaque overlay (there may be other methods tho).
 
-[1] Not really the plugin in itself, but moreso the local config.
