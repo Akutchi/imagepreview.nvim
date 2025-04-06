@@ -19,7 +19,7 @@ function M.Length(T)
 end
 
 function M.Has_Value(tab, val)
-  for _, value in ipairs(tab) do
+  for _, value in pairs(tab) do
     if value == val then
       return true
     end

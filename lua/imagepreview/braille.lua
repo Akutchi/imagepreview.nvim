@@ -9,12 +9,14 @@ local EndSet = "\x1b[0m"
 --  from https://rosettacode.org/wiki/Bitmap/Read_a_PPM_file#Lua
 --  Modified to change the processing order
 function Read_PPM(filename)
+
   local fp = io.open(filename, "rb")
   if fp == nil then return nil end
 
   local data = fp:read("*line")
   if data ~= "P6" then return nil end
 
+  --  skip comments
   repeat
     data = fp:read("*line")
   until string.find(data, "#") == nil
@@ -44,6 +46,7 @@ function Read_PPM(filename)
 end
 
 local function Get_Color_Code(img, i, j)
+
   local r = img[j][i][1]
   local g = img[j][i][2]
   local b = img[j][i][3]
@@ -53,20 +56,20 @@ local function Get_Color_Code(img, i, j)
   return code .. "m"
 end
 
-local function Get_Image_Rescaling(Img_Path)
-  -- I have to use values in config (that are calculated when lunarvim first start), otherwise
-  -- the font rescaling appends too quickly for the window & image calculations to take them
+local function Get_Image_Rescaled_Dims(Img_Path)
+
+  -- I have to use values in config.lua, otherwise the font rescaling
+  -- happens too quickly for the window & image calculations to take them
   -- into account
-  local win_spec = { width = Config.target_width, height = Config.target_height } --vim.api.nvim_list_uis()[1]
+  local win_spec = { width = Config.UI_target_width, height = Config.UI_target_height }
 
   local term_width = math.floor(win_spec["width"] * Config.term_width_percentage)
   local term_height = math.floor(win_spec["height"] * Config.term_height_percentage)
-  --  because our term window is a % of the original window's height
 
   local handle = io.popen("identify -ping -format '%w %h' " .. Img_Path)
 
   if handle == nil then
-    return "could not display image"
+    return "could not get image dimensions"
   end
 
   local dims_str = handle:read("*a")
@@ -86,13 +89,16 @@ local function Get_Image_Rescaling(Img_Path)
     ascii_height = term_height
   end
  ]]
+
   return ascii_width, ascii_height
+
 end
 
-function M.Create_Tmp(Img_Path)
+function M.Create_Preview_Dump(Img_Path)
+
   vim.cmd("silent !touch tmp.txt")
 
-  local ascii_width, ascii_height = Get_Image_Rescaling(Img_Path)
+  local ascii_width, ascii_height = Get_Image_Rescaled_Dims(Img_Path)
   vim.cmd("silent !convert -resize " .. 2 * ascii_width .. "x" .. 4 * ascii_height .. "\\! " .. Img_Path .. " tmp.ppm")
 
   local ppm_w, ppm_h, img = Read_PPM("tmp.ppm")
@@ -104,6 +110,7 @@ function M.Create_Tmp(Img_Path)
   end
 
   for j = 1, ppm_h, height_step do
+
     local line = ""
     for i = 1, ppm_w, width_step do
       line = line .. StartSet .. Get_Color_Code(img, i, j) .. "⣿" .. EndSet
