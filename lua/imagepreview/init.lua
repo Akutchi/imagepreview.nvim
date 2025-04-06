@@ -1,12 +1,13 @@
 M = {}
 
+local Config = require("imagepreview.config")
 local utils = require("imagepreview.utils")
 
 local function Create_Dither_Image(Image_Path, file_ext)
   local braille = require("imagepreview.braille")
 
   --  57, 47 are the term sizes
-  braille.Create_Tmp(57, 47, Image_Path)
+  braille.Create_Tmp(Image_Path)
 end
 
 local function Generate_Window()
@@ -19,7 +20,7 @@ local function Generate_Window()
     relative = "editor",
     border = { style = "rounded" },
     position = "50%",
-    size = { width = "30%", height = "95%" },
+    size = { width = tostring(Config.term_width_percentage * 100) .. "%", height = tostring(Config.term_height_percentage * 100) .. "%" },
   })
 
   win:mount()
@@ -57,11 +58,13 @@ function M.Preview()
   local file_ext = file_split[2]
   local len = utils.Length(file_split)
 
+
   if (len > 1) and utils.Has_Value(ext, file_ext) then
-    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6'")
     Create_Dither_Image(path, file_ext)
     local win = Generate_Window()
     Display_Image(win.bufnr)
+
+    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6'")
   else
     print("your file is not an image or is not supported.")
     return

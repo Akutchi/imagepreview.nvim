@@ -1,5 +1,6 @@
 M = {}
 
+local Config = require("imagepreview.config")
 local utils = require("imagepreview.utils")
 
 local StartSet = "\x1b[38;2;"
@@ -52,14 +53,11 @@ local function Get_Color_Code(img, i, j)
   return code .. "m"
 end
 
--- base config (w, h) x (2, 4) abd corresponding steps
-function M.Create_Tmp(w, h, Img_Path)
-  vim.cmd("silent !touch tmp.txt")
-
+local function Get_Image_Rescaling(Img_Path)
   local win_spec = vim.api.nvim_list_uis()[1]
-  local term_width = math.floor(win_spec["width"] * 0.3)
-  local term_height = math.floor(win_spec["height"] * 0.95)
-  --  because our term window is only 95% the height of the original
+  local term_width = math.floor(win_spec["width"] * Config.term_width_percentage)
+  local term_height = math.floor(win_spec["height"] * Config.term_height_percentage)
+  --  because our term window is a % of the original window's height
 
   local handle = io.popen("identify -ping -format '%w %h' " .. Img_Path)
 
@@ -78,12 +76,19 @@ function M.Create_Tmp(w, h, Img_Path)
     ascii_width = term_width
     ascii_height = 0.5 * ascii_width / img_ratio
   end
-
+  --[[
   if ascii_height > term_height then
     ascii_width = term_width
     ascii_height = term_height
   end
+ ]]
+  return ascii_width, ascii_height
+end
 
+function M.Create_Tmp(Img_Path)
+  vim.cmd("silent !touch tmp.txt")
+
+  local ascii_width, ascii_height = Get_Image_Rescaling(Img_Path)
   vim.cmd("silent !convert -resize " .. 2 * ascii_width .. "x" .. 4 * ascii_height .. "\\! " .. Img_Path .. " tmp.ppm")
 
   local ppm_w, ppm_h, img = Read_PPM("tmp.ppm")
@@ -104,7 +109,7 @@ function M.Create_Tmp(w, h, Img_Path)
     vim.cmd("silent !echo -e \"" .. f_line .. "\" >> tmp.txt")
   end
 
-  -- vim.cmd("silent !rm tmp.ppm")
+  vim.cmd("silent !rm tmp.ppm")
 end
 
 return M
