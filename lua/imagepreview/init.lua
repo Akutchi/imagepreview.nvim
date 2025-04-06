@@ -3,6 +3,8 @@ M = {}
 local Config = require("imagepreview.config")
 local utils = require("imagepreview.utils")
 
+local overlay_id = -1
+
 local function Create_Dither_Image(Image_Path, file_ext)
   local braille = require("imagepreview.braille")
 
@@ -18,6 +20,7 @@ local function Generate_Window()
     enter = true,
     focusable = true,
     relative = "editor",
+    zindex = 2,
     border = { style = "rounded" },
     position = "180%",
     size = { width = tostring(math.floor(Config.target_width * Config.term_width_percentage)), height = tostring(math.floor(Config.target_height * Config.term_height_percentage)) },
@@ -28,6 +31,8 @@ local function Generate_Window()
     win:unmount()
     vim.cmd("silent !rm tmp.txt")
     vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name '" .. Config.base_font .. " 12'")
+    vim.api.nvim_win_close(overlay_id, false)
+    overlay_id = -1
   end)
 
   return win
@@ -48,6 +53,24 @@ local function Display_Image(win_buffer)
   data:close()
 end
 
+local function Create_Overlay()
+  local overlay = {}
+
+  overlay.wincfg = {
+    relative = "editor",
+    zindex = 1,
+    row = 0,
+    col = 0,
+    width = Config.target_width,
+    height = Config.target_height
+  }
+  overlay.bufid = vim.api.nvim_create_buf(false, true)
+  overlay.winid = vim.api.nvim_open_win(overlay.bufid, false, overlay.wincfg)
+  vim.wo[overlay.winid].winblend = 10
+
+  return overlay.winid
+end
+
 function M.Preview()
   if Config.base_font == "" then
     print("Could not determine base font. Exiting ImagePreview...")
@@ -63,12 +86,14 @@ function M.Preview()
   local file_ext = file_split[2]
   local len = utils.Length(file_split)
 
-
   if (len > 1) and utils.Has_Value(ext, file_ext) then
     --  The target window width/height are precalculated for a specific rescaling
     --  Thus, I can font rescale at the end to avoid seeing the latence
     Create_Dither_Image(path, file_ext)
     local win = Generate_Window()
+
+    overlay_id = Create_Overlay()
+
     Display_Image(win.bufnr)
     vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6'")
   else
