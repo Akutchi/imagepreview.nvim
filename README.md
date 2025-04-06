@@ -18,7 +18,7 @@ the image you want to preview. Then, use \<leader>ip to preview your image. Clic
 the ascii rendering close the preview.
 
 ![gif](./doc/visual.gif)
-\<leader>e + \<leader>ip combination (please excuse the bad quality recording)
+\<leader>e + \<leader>ip combination (please excuse the bad quality recording, will update later on.)
 
 ## Installation
 
@@ -27,7 +27,7 @@ the ascii rendering close the preview.
 - Imagemagick (I used 6.9.11 but older versions should be good)
 - Neovim >= 0.5.0
 - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (I should be using 1.11.0 but older versions should be good)
-- [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
+- [nui.nvim](https://github.com/MunifTanjim/nui.nvim) (already marked as a dependency in lazy.nvim)
 
 Please note that this was alll tested on Ubuntu 22.04.05 and that I suppose that you have a /etc/default/console-setup
 file that has a FONTFACE="\[FONT\]-\[TYPE\]" line describing the current system-wide font in use.
@@ -39,7 +39,10 @@ If you're interested, don't hesitate to apply for a merge request to add your di
 #### [Lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
-{"Akutchi/ImagePreview"}
+{
+    "Akutchi/ImagePreview",
+    dependencies = { "MunifTanjim/nui.nvim" }    
+}
 ```
 To create the key binding, copy/paste this in your config.lua file, or wherever your config is :
 ```lua
