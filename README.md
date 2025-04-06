@@ -30,7 +30,8 @@ the ascii rendering close the preview.
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim) (already marked as a dependency in lazy.nvim)
 
 Please note that this was alll tested on Ubuntu 22.04.05 and that I suppose that you have a /etc/default/console-setup
-file that has a FONTFACE="\[FONT\]-\[TYPE\]" line describing the current system-wide font in use.
+file that has a FONTFACE="\[FONT\]-\[TYPE\]" line describing the current system-wide font in use. I am also supposing
+a gnome environnement (I'm using gsettings for the font scaling).
 
 If you're interested, don't hesitate to apply for a merge request to add your distro to the list of supported ones.
 
