@@ -54,7 +54,11 @@ local function Get_Color_Code(img, i, j)
 end
 
 local function Get_Image_Rescaling(Img_Path)
-  local win_spec = vim.api.nvim_list_uis()[1]
+  -- I have to use values in config (that are calculated when lunarvim first start), otherwise
+  -- the font rescaling appends too quickly for the window & image calculations to take them
+  -- into account
+  local win_spec = { width = Config.target_width, height = Config.target_height } --vim.api.nvim_list_uis()[1]
+
   local term_width = math.floor(win_spec["width"] * Config.term_width_percentage)
   local term_height = math.floor(win_spec["height"] * Config.term_height_percentage)
   --  because our term window is a % of the original window's height

@@ -6,7 +6,7 @@ local utils = require("imagepreview.utils")
 local function Create_Dither_Image(Image_Path, file_ext)
   local braille = require("imagepreview.braille")
 
-  --  57, 47 are the term sizes
+  -- term sizes are calculated from image and window sizes
   braille.Create_Tmp(Image_Path)
 end
 
@@ -19,15 +19,15 @@ local function Generate_Window()
     focusable = true,
     relative = "editor",
     border = { style = "rounded" },
-    position = "50%",
-    size = { width = tostring(Config.term_width_percentage * 100) .. "%", height = tostring(Config.term_height_percentage * 100) .. "%" },
+    position = "180%",
+    size = { width = tostring(math.floor(Config.target_width * Config.term_width_percentage)), height = tostring(math.floor(Config.target_height * Config.term_height_percentage)) },
   })
 
   win:mount()
   win:on(event.BufLeave, function()
     win:unmount()
     vim.cmd("silent !rm tmp.txt")
-    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 12'")
+    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name '0xProto Nerd Font 12'")
   end)
 
   return win
@@ -60,10 +60,11 @@ function M.Preview()
 
 
   if (len > 1) and utils.Has_Value(ext, file_ext) then
+    --  The target window width/height are precalculated for a specific rescaling
+    --  Thus, I can font rescale at the end to avoid seeing the latence
     Create_Dither_Image(path, file_ext)
     local win = Generate_Window()
     Display_Image(win.bufnr)
-
     vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6'")
   else
     print("your file is not an image or is not supported.")
