@@ -26,6 +26,7 @@ local function Generate_Window()
   win:on(event.BufLeave, function()
     win:unmount()
     vim.cmd("silent !rm tmp.txt")
+    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 12'")
   end)
 
   return win
@@ -57,6 +58,7 @@ function M.Preview()
   local len = utils.Length(file_split)
 
   if (len > 1) and utils.Has_Value(ext, file_ext) then
+    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6'")
     Create_Dither_Image(path, file_ext)
     local win = Generate_Window()
     Display_Image(win.bufnr)
