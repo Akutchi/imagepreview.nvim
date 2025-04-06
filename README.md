@@ -2,7 +2,7 @@
 
 ## Description
 
-ImagePreview is a simple program that display preview of images in a neovim environnement.
+ImagePreview is a plugin that helps display preview of images in a neovim environnement.
 If you're like me and you don't want to use Xterm, Kitty etc. for whatever reason, you
 can't really preview full blown images in your basic terminal.\
 This is why I decided to create a program that could display ascii rendering of images.
