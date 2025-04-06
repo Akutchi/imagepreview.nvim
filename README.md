@@ -18,7 +18,7 @@ the image you want to preview. Then, use \<leader>ip to preview your image. Clic
 the ascii rendering close the preview.
 
 ![gif](./doc/visual.gif)
-\<leader>e + \<leader>ip combination
+\<leader>e + \<leader>ip combination (please excuse the bad quality recording)
 
 ## Installation
 
