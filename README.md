@@ -40,8 +40,6 @@ lines, which describe the current font in use.
 FONTFACE="\[FONT\]-\[TYPE\]"
 FONTSIZE="8x[SIZE]"
 ```
-⚠️ Beware : In your gnome terminal settings, uncheck the " custom font " option for this plugin to work. (If you know how to 
-do it by command line, I'm all ears).
 
 ### ⚙️ Configuration
 
