@@ -20,7 +20,7 @@ the ascii rendering close the preview.
 ![gif](./doc/visual.gif)
 \<leader>e + \<leader>ip combination (please excuse the bad quality recording, will update later on.)
 
-## Installation
+## 📦 Installation
 
 ### Requirements
 
@@ -29,13 +29,21 @@ the ascii rendering close the preview.
 - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (I should be using 1.11.0 but older versions should be good)
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim) (already marked as a dependency in lazy.nvim)
 
-Please note that this was alll tested on Ubuntu 22.04.05 and that I suppose that you have a /etc/default/console-setup
-file that has a FONTFACE="\[FONT\]-\[TYPE\]" line describing the current system-wide font in use. I am also supposing
-a gnome environnement (I'm using gsettings for the font scaling).
-
+### Supported distributions
+While the plugin should theorically work on gnome-based distributions, I did not test it on other distro than Ubuntu 22.04.05.\
 If you're interested, don't hesitate to apply for a merge request to add your distro to the list of supported ones.
 
-### Configuration
+#### Gnome-Based Distributions
+I suppose that you have a /etc/default/console-setup file that configure your gnome terminal. This file must have those
+lines, which describe the current font in use.
+```shell
+FONTFACE="\[FONT\]-\[TYPE\]"
+FONTSIZE="8x[SIZE]"
+```
+⚠️ Beware : In your gnome terminal settings, uncheck the " custom font " option for this plugin to work. (If you know how to 
+do it by command line, I'm all ears).
+
+### ⚙️ Configuration
 
 #### [Lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -46,6 +54,9 @@ If you're interested, don't hesitate to apply for a merge request to add your di
 }
 ```
 To create the key binding, copy/paste this in your config.lua file, or wherever your config is :
+##### Neovim
+
+##### Lunarvim
 ```lua
 lvim.builtin.which_key.mappings["i"] = {
   name = "Image",
