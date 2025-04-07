@@ -34,6 +34,9 @@ While the plugin should theorically work on gnome-based distributions, I did not
 If you're interested, don't hesitate to apply for a merge request to add your distro to the list of supported ones.
 
 #### Gnome-Based Distributions
+⚠️ Beware : for this to work, I'm using the system-wide font. Please uncheck the "custom font" option in your gnome terminal
+preferences. (If you know how to use the custom font, I'm all ears).
+
 I suppose that you have a /etc/default/console-setup file that configure your gnome terminal. This file must have those
 lines, which describe the current font in use.
 ```shell
