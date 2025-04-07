@@ -18,7 +18,7 @@ The plugin is currently checking for .png, .jpg, .jpeg and .webp images.
 - Imagemagick (I used 6.9.11 but older versions should be good)
 - Neovim >= 0.5.0
 - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (I should be using 1.11.0 but older versions should be good)
-- [nui.nvim](https://github.com/MunifTanjim/nui.nvim) (already marked as a dependency in lazy.nvim)
+- [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
 
 ### Supported distributions
 While the plugin should theorically work on gnome-based distributions, I did not test it on other distro than Ubuntu 22.04.05\
