@@ -41,7 +41,7 @@ preferences. (Don't worry, the plugin revert back to the custom font when it's d
 
 ```lua
 {
-    "Akutchi/imagepreview",
+    "Akutchi/imagepreview.nvim",
     dependencies = { "MunifTanjim/nui.nvim" }    
 }
 ```
