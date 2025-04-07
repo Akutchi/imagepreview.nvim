@@ -7,23 +7,19 @@ local Scale = { To_6 = 0, To_12 = 1 }
 local overlay_id = -1
 
 local function Create_Dither_Image(Image_Path)
-
   local braille = require("imagepreview.braille")
 
   -- term sizes are calculated from image and target window sizes
   -- See config.lua for the latter.
   braille.Create_Preview_Dump(Image_Path)
-
 end
 
 local function Font_Scale(To)
-
   if To == Scale.To_12 then
-    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name '" .. Config.base_font .. " 12'")
-
+    local base_font = Config.base_font["font_family"] .. " " .. Config.base_font["font_size"] .. "'"
+    vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name '" .. base_font)
   elseif To == Scale.To_6 then
     vim.cmd("silent !gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6'")
-
   end
 end
 
@@ -32,7 +28,6 @@ end
 -- Its width/height are a percentage of the UI's final sizes. To know why
 -- thoses are precalculated, see config.lua
 local function Generate_Preview_Window()
-
   local Popup = require("nui.popup")
   local event = require("nui.utils.autocmd").event
 
@@ -63,7 +58,6 @@ local function Generate_Preview_Window()
 end
 
 local function Display_Image(win_buffer)
-
   local chan = vim.api.nvim_open_term(win_buffer, {})
 
   local data = assert(io.open("tmp.txt", 'r'))
@@ -77,11 +71,9 @@ local function Display_Image(win_buffer)
   end
 
   data:close()
-
 end
 
 local function Create_Overlay()
-
   local overlay = {}
 
   overlay.wincfg = {
@@ -97,11 +89,9 @@ local function Create_Overlay()
   vim.wo[overlay.winid].winblend = 10
 
   return overlay.winid
-
 end
 
 function M.Preview()
-
   if Config.base_font == "" then
     print("Could not determine base font. Exiting ImagePreview...")
     return
@@ -118,7 +108,6 @@ function M.Preview()
   local has_extension = utils.Length(file_split) > 1
 
   if has_extension and utils.Has_Value(ext, file_ext) then
-
     Create_Dither_Image(path)
     local win = Generate_Preview_Window()
     overlay_id = Create_Overlay()
@@ -128,7 +117,6 @@ function M.Preview()
     --  rescaling (see config.lua). Thus, I can font rescale at the end
     --  to avoid seeing the latence (the terminal refreshing)
     Font_Scale(Scale.To_6)
-
   else
     print("your file is not an image or is not supported.")
     return

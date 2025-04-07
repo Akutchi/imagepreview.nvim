@@ -30,19 +30,19 @@ the ascii rendering close the preview.
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim) (already marked as a dependency in lazy.nvim)
 
 ### Supported distributions
-While the plugin should theorically work on gnome-based distributions, I did not test it on other distro than Ubuntu 22.04.05.\
+While the plugin should theorically work on gnome-based distributions, I did not test it on other distro than Ubuntu 22.04.05\
 If you're interested, don't hesitate to apply for a merge request to add your distro to the list of supported ones.
 
 #### Gnome-Based Distributions
-⚠️ Beware : for this to work, I'm using the system-wide font. Please uncheck the "custom font" option in your gnome terminal
-preferences. (If you know how to use the custom font, I'm all ears).
-
-I suppose that you have a /etc/default/console-setup file that configure your gnome terminal. This file must have those
-lines, which describe the current font in use.
+I suppose that you have a /etc/default/console-setup file that configure your ttys. This file must have those
+lines, which describe the current font in use for them.
 ```shell
 FONTFACE="\[FONT\]-\[TYPE\]"
 FONTSIZE="8x[SIZE]"
 ```
+
+⚠️ Beware : for this to work, I'm using the system-wide font. Please uncheck the "custom font" option in your gnome terminal
+preferences. (Don't worry, the plugin revert back to the custom font when it's done).
 
 ### ⚙️ Configuration
 
@@ -56,7 +56,9 @@ FONTSIZE="8x[SIZE]"
 ```
 To create the key binding, copy/paste this in your config.lua file, or wherever your config is :
 ##### Neovim
-
+```lua
+vim.keymap.set('n', '<leader>ip', require('imagepreview').Preview, { noremap = true, desc = "Preview an image" })
+```
 ##### Lunarvim
 ```lua
 lvim.builtin.which_key.mappings["i"] = {

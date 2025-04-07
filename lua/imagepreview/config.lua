@@ -1,6 +1,7 @@
 local utils = require("imagepreview.utils")
 
 local Console_Setup_Path = "/etc/default/console-setup"
+local Font = { Family = "-", Size = "x" }
 
 M = {
   UI_target_width = 476,
@@ -38,19 +39,38 @@ M = {
 -- The UI target width/height are recuperated from nvim_list_uis()[0] after having applied a
 -- $ gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 6' scaling.
 
-
--- Get FONTFACE="[FONTNAME-TYPE]"
-local handle = io.popen("cat " .. Console_Setup_Path .. " | grep FONTFACE")
-
-if handle == nil then
-  M.base_font = ""
-else
+-- This function get a string XXX="[YYY][opt][ZZZ]" and get
+-- opt = Family => [YYY]
+-- opt = Size => [ZZZ]
+--
+-- This is based on the console-setup file.
+local function Get_Font_Option(handle, opt)
   local raw = handle:read("*a")
-  local raw_fontname = utils.Split(raw, "=")[2]
-  local font_clean = string.sub(raw_fontname, 2, #raw_fontname - 1)
-  local font_without_type = utils.Split(font_clean, "-")[1]
+  local raw_font_opt = utils.Split(raw, "=")[2]
+  local font_opt_no_str = string.sub(raw_font_opt, 2, #raw_font_opt - 2)
+  local font_opt_clean = utils.Split(font_opt_no_str, opt)
 
-  M.base_font = font_without_type
+  if opt == Font.Family then
+    return font_opt_clean[1]
+  elseif opt == Font.Size then
+    return font_opt_clean[2]
+  end
 end
+
+local function Get_Font()
+  -- Get FONTFACE="[FONTNAME]-[TYPE]"
+  local handle = io.popen("cat " .. Console_Setup_Path .. " | grep FONTFACE")
+
+  -- Get FONTSIZE="8x[SIZE]"
+  local handle2 = io.popen("cat " .. Console_Setup_Path .. " | grep FONTSIZE")
+
+  if handle == nil or handle2 == nil then
+    M.base_font = ""
+  else
+    return { font_family = Get_Font_Option(handle, Font.Family), font_size = Get_Font_Option(handle2, Font.Size) }
+  end
+end
+
+M.base_font = Get_Font()
 
 return M
