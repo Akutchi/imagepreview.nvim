@@ -11,15 +11,6 @@ largely on the original image's details.
 
 The plugin is currently checking for .png, .jpg, .jpeg and .webp images.
 
-## Usage
-
-Its usage is pretty basic. First, open the tree explorer with \<leader>e, and place the cursor on
-the image you want to preview. Then, use \<leader>ip to preview your image. Clicking anywhere else
-the ascii rendering close the preview.
-
-![gif](./doc/visual.gif)
-\<leader>e + \<leader>ip combination (please excuse the bad quality recording, will update later on.)
-
 ## 📦 Installation
 
 ### Requirements
@@ -66,6 +57,15 @@ lvim.builtin.which_key.mappings["i"] = {
   p = { "<cmd>lua require('imagepreview').Preview()<cr>", "Preview an image" }
 }
 ```
+
+## Usage
+
+Its usage is pretty basic. First, open the tree explorer with \<leader>e, and place the cursor on
+the image you want to preview. Then, use \<leader>ip to preview your image. Clicking anywhere else
+the ascii rendering close the preview.
+
+![gif](./doc/visual.gif)
+\<leader>e + \<leader>ip combination (please excuse the bad quality recording, will update later on.)
 
 ## Credits
 
