@@ -18,17 +18,17 @@ The plugin is currently checking for .png, .jpg, .jpeg and .webp images.
 - Imagemagick (I used 6.9.11 but older versions should be good)
 - Neovim >= 0.5.0
 - [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) (I should be using 1.11.0 but older versions should be good)
-- [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
+- [nui.nvim](https://github.com/MunifTanjim/nui.nvim) (already marked as a dependency in lazy.nvim)
 
 ### Supported distributions
-While the plugin should theorically work on gnome-based distributions, I did not test it on other distro than Ubuntu 22.04.05.
+While the plugin should theorically work on gnome-based distributions, I did not test it on other distro than Ubuntu 22.04.05\
 If you're interested, don't hesitate to apply for a merge request to add your distro to the list of supported ones.
 
 #### Gnome-Based Distributions
 I suppose that you have a /etc/default/console-setup file that configure your ttys. This file must have those
 lines, which describe the current font in use for them.
 ```shell
-FONTFACE="[FONT]-[TYPE]"
+FONTFACE="\[FONT\]-\[TYPE\]"
 FONTSIZE="8x[SIZE]"
 ```
 
@@ -41,7 +41,7 @@ preferences. (Don't worry, the plugin revert back to the custom font when it's d
 
 ```lua
 {
-    "Akutchi/imagepreview.nvim",
+    "Akutchi/ImagePreview",
     dependencies = { "MunifTanjim/nui.nvim" }    
 }
 ```
@@ -65,15 +65,11 @@ the image you want to preview. Then, use \<leader>ip to preview your image. Clic
 the ascii rendering close the preview.
 
 ![gif](./doc/visual.gif)
-(please excuse the bad quality recording, will update later on.)
-
-Note : I know that (on lunarvim at least) "s" preview an image. But is uses the default Image Viewer 
-which is somewhat of a pain to close on the contrary to just clicking elsewhere.
 
 ## Credits
 
 This is my first neovim plugin. It was _hell_ to create, and as such, I'd like to thank some people
-that helped me create my plugin (without them knowing). Those are,
+that helped me create my plugin (without them knowing, ofc). Those are,
 - [m4xshen](https://m4xshen.dev/posts/develop-a-neovim-plugin-in-lua) for the general idea on how to create a 
 local plugin.
 - [D029](https://vi.stackexchange.com/a/46098) and
